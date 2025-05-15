@@ -6,6 +6,6 @@ public class App {
         arvore.inserirNo("B");
         arvore.inserirNo("D");
 
-        arvore.exibirArvore(); // Deve imprimir: A B C D
+        arvore.exibirArvore();
     }
 }
