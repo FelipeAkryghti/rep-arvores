@@ -16,8 +16,7 @@ public class Arvore {
                 if (atual.getEsquerda() == null) {
                     atual.setEsquerda(novo);
                     return;
-                } 
-                else if (atual.getDireita() == null) {
+                } else if (atual.getDireita() == null) {
                     atual.setDireita(novo);
                     return;
                 } else {
@@ -26,8 +25,9 @@ public class Arvore {
             }
         }
     }
-    
-    // imprimi a árvore com a função preOrdem() para exibir para o usuário a árvore em pré-ordem
+
+    // imprimi a árvore com a função preOrdem() para exibir para o usuário a árvore
+    // em pré-ordem
     public void exibirArvore() {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
@@ -35,6 +35,18 @@ public class Arvore {
             System.out.print("Pré-ordem: ");
             preOrdem(raiz);
             System.out.println();
+        }
+    }
+
+    public int contaNos() {
+        return contaNos(raiz);
+    }
+
+    private int contaNos(No no) {
+        if (no == null) {
+            return 0;
+        } else {
+            return 1 + contaNos(no.getEsquerda()) + contaNos(no.getDireita());
         }
     }
 
@@ -46,4 +58,5 @@ public class Arvore {
             preOrdem(no.getDireita());
         }
     }
+
 }

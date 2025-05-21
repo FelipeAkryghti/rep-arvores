@@ -6,6 +6,8 @@ public class App {
         arvore.inserirNo("B");
         arvore.inserirNo("D");
 
-        arvore.exibirArvore(); // C, A, D, B
+        arvore.exibirArvore(); // saída esperada: C A B D (pré-ordem)
+
+        System.out.println("Total de nós: " + arvore.contaNos()); // Deve exibir: 4
     }
 }
