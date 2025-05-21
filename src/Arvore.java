@@ -26,14 +26,22 @@ public class Arvore {
         }
     }
 
-    // imprimi a árvore com a função preOrdem() para exibir para o usuário a árvore
-    // em pré-ordem
-    public void exibirArvore() {
+
+    public void exibirArvorePreOrdem() {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
         } else {
             System.out.print("Pré-ordem: ");
             preOrdem(raiz);
+            System.out.println();
+        }
+    }
+    public void exibirArvoreEmOrdem() {
+        if (raiz == null) {
+            System.out.println("Árvore vazia.");
+        } else {
+            System.out.print("Em ordem: ");
+            emOrdem(raiz);
             System.out.println();
         }
     }
@@ -50,12 +58,20 @@ public class Arvore {
         }
     }
 
-    // exibe a árvore em pré-ordem utilizando recursividade
+    
     private void preOrdem(No no) {
         if (no != null) {
             System.out.print(no.getConteudo() + " ");
             preOrdem(no.getEsquerda());
             preOrdem(no.getDireita());
+        }
+    }
+
+    private void emOrdem(No no) {
+        if (no != null){
+            emOrdem(no.getEsquerda());
+            System.out.print(no.getConteudo() + " ");
+            emOrdem(no.getDireita());
         }
     }
 
