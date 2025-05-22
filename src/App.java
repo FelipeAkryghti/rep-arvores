@@ -12,8 +12,10 @@ public class App {
 
         arvore.exibirArvorePreOrdem();
 
-        arvore.exibirArvoreEmOrdem(); 
+        arvore.exibirArvorePreOrdemRecursivo();
 
-        arvore.exibirArvorePosOrdem(); 
+        arvore.exibirArvoreEmOrdemRecursivo(); 
+
+        arvore.exibirArvorePosOrdemRecursivo(); 
     }
 }

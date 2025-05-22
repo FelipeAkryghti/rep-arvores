@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class Arvore {
     private No raiz;
 
@@ -26,6 +28,15 @@ public class Arvore {
         }
     }
 
+    public void exibirArvorePreOrdemRecursivo() {
+        if (raiz == null) {
+            System.out.println("Árvore vazia.");
+        } else {
+            System.out.print("Pré-ordem: ");
+            preOrdemRecursivo(raiz);
+            System.out.println();
+        }
+    }
 
     public void exibirArvorePreOrdem() {
         if (raiz == null) {
@@ -36,21 +47,23 @@ public class Arvore {
             System.out.println();
         }
     }
-    public void exibirArvoreEmOrdem() {
+
+    public void exibirArvoreEmOrdemRecursivo() {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
         } else {
             System.out.print("Em ordem: ");
-            emOrdem(raiz);
+            emOrdemRecursivo(raiz);
             System.out.println();
         }
     }
-    public void exibirArvorePosOrdem() {
+
+    public void exibirArvorePosOrdemRecursivo() {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
         } else {
             System.out.print("Pós-ordem: ");
-            posOrdem(raiz);
+            posOrdemRecursivo(raiz);
             System.out.println();
         }
     }
@@ -67,29 +80,47 @@ public class Arvore {
         }
     }
 
-    
-    private void preOrdem(No no) {
+    private void preOrdemRecursivo(No no) {
         if (no != null) {
             System.out.print(no.getConteudo() + " ");
-            preOrdem(no.getEsquerda());
-            preOrdem(no.getDireita());
+            preOrdemRecursivo(no.getEsquerda());
+            preOrdemRecursivo(no.getDireita());
         }
     }
 
-    private void emOrdem(No no) {
-        if (no != null){
-            emOrdem(no.getEsquerda());
+    private void emOrdemRecursivo(No no) {
+        if (no != null) {
+            emOrdemRecursivo(no.getEsquerda());
             System.out.print(no.getConteudo() + " ");
-            emOrdem(no.getDireita());
+            emOrdemRecursivo(no.getDireita());
         }
     }
 
-    private void posOrdem(No no){
-        if (no != null){
-            posOrdem(no.getEsquerda());
-            posOrdem(no.getDireita());
+    private void posOrdemRecursivo(No no) {
+        if (no != null) {
+            posOrdemRecursivo(no.getEsquerda());
+            posOrdemRecursivo(no.getDireita());
             System.out.print(no.getConteudo() + " ");
         }
     }
 
+    private void preOrdem(No no) {
+        if (no == null)
+            return;
+
+        Stack<No> pilha = new Stack<>();
+        pilha.push(no);
+
+        while (!pilha.isEmpty()) {
+            No atual = pilha.pop();
+            System.out.print(atual.getConteudo() + " ");
+
+            if (atual.getDireita() != null) {
+                pilha.push(atual.getDireita());
+            }
+            if (atual.getEsquerda() != null) {
+                pilha.push(atual.getEsquerda());
+            }
+        }
+    }
 }
