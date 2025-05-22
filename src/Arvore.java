@@ -45,6 +45,15 @@ public class Arvore {
             System.out.println();
         }
     }
+    public void exibirArvorePosOrdem() {
+        if (raiz == null) {
+            System.out.println("Árvore vazia.");
+        } else {
+            System.out.print("Pós-ordem: ");
+            posOrdem(raiz);
+            System.out.println();
+        }
+    }
 
     public int contaNos() {
         return contaNos(raiz);
@@ -72,6 +81,14 @@ public class Arvore {
             emOrdem(no.getEsquerda());
             System.out.print(no.getConteudo() + " ");
             emOrdem(no.getDireita());
+        }
+    }
+
+    private void posOrdem(No no){
+        if (no != null){
+            posOrdem(no.getEsquerda());
+            posOrdem(no.getDireita());
+            System.out.print(no.getConteudo() + " ");
         }
     }
 

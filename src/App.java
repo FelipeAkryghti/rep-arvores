@@ -8,10 +8,12 @@ public class App {
         arvore.inserirNo("E");
         arvore.inserirNo("F");
 
-        arvore.exibirArvorePreOrdem(); // saída esperada: A B D F E C (pré-ordem)
-
         System.out.println("Total de nós: " + arvore.contaNos()); // Deve mostrar 6
 
-        arvore.exibirArvoreEmOrdem(); // saída esperada é F D B E A C (em-ordem)
+        arvore.exibirArvorePreOrdem();
+
+        arvore.exibirArvoreEmOrdem(); 
+
+        arvore.exibirArvorePosOrdem(); 
     }
 }
