@@ -32,7 +32,7 @@ public class Arvore {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
         } else {
-            System.out.print("Pré-ordem: ");
+            System.out.print("Pré-ordem recursiva: ");
             preOrdemRecursivo(raiz);
             System.out.println();
         }
@@ -52,7 +52,7 @@ public class Arvore {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
         } else {
-            System.out.print("Em ordem: ");
+            System.out.print("Em ordem recursiva: ");
             emOrdemRecursivo(raiz);
             System.out.println();
         }
@@ -62,7 +62,7 @@ public class Arvore {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
         } else {
-            System.out.print("Pós-ordem: ");
+            System.out.print("Pós-ordem recursiva: ");
             posOrdemRecursivo(raiz);
             System.out.println();
         }

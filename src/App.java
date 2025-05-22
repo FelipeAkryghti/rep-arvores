@@ -8,7 +8,7 @@ public class App {
         arvore.inserirNo("E");
         arvore.inserirNo("F");
 
-        System.out.println("Total de nós: " + arvore.contaNos()); // Deve mostrar 6
+        System.out.println("Total de nós: " + arvore.contaNos());
 
         arvore.exibirArvorePreOrdem();
 
