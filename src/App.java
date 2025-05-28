@@ -9,13 +9,7 @@ public class App {
         arvore.inserirNo("F");
 
         System.out.println("Total de nós: " + arvore.contaNos());
-
-        arvore.exibirArvorePreOrdem();
-
-        arvore.exibirArvorePreOrdemRecursivo();
-
-        arvore.exibirArvoreEmOrdemRecursivo(); 
-
-        arvore.exibirArvorePosOrdemRecursivo(); 
+        System.out.println("Total de nós folha: " + arvore.contaNosFolha());
+        System.out.println("Total de nós folha " + arvore.contaNosFolhaRecursivo());
     }
 }

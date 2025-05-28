@@ -80,6 +80,51 @@ public class Arvore {
         }
     }
 
+    
+    public int contaNosFolhaRecursivo(){
+        return contaNosFolhaRecursivo(raiz);
+    }
+
+    private int contaNosFolhaRecursivo(No no) {
+        int contateste = 0;
+        if (no == null) {
+            return 0;
+        } else {
+            No atual = no;
+            if (atual.getEsquerda() != null && atual.getDireita() != null) {
+                contateste = 1 + contaNosFolhaRecursivo(no.getEsquerda()) + contaNosFolhaRecursivo(no.getDireita());
+                return contateste;
+            }
+        }
+        return contateste;
+    }
+    
+    public int contaNosFolha() {
+        return contaNosFolha(raiz);
+    }
+    private int contaNosFolha(No no) {
+        if (no == null)
+            return 0;
+        Stack<No> pilha = new Stack<>();
+        pilha.push(no);
+
+        int contadorNoFolha = 0;
+
+        while (!pilha.isEmpty()) {
+            No atual = pilha.pop();
+            if (atual.getEsquerda() == null && atual.getDireita() == null) {
+                contadorNoFolha++;
+            }
+            if (atual.getDireita() != null) {
+                pilha.push(atual.getDireita());
+            }
+            if (atual.getEsquerda() != null) {
+                pilha.push(atual.getEsquerda());
+            }
+        }
+        return contadorNoFolha;
+    }
+
     private void preOrdemRecursivo(No no) {
         if (no != null) {
             System.out.print(no.getConteudo() + " ");
