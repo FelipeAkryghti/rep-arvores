@@ -2,11 +2,13 @@ public class No {
     private String conteudo;
     private No esquerda;
     private No direita;
+    private int altura;
 
     public No(String conteudo){
         this.conteudo = conteudo;
         this.esquerda = null;
         this.direita = null;
+        this.altura = 1;
     }
 
     public String getConteudo() {
@@ -32,4 +34,13 @@ public class No {
     public void setDireita(No direita) {
         this.direita = direita;
     }
+
+    public int getAltura() {
+        return altura;
+    }
+
+    public void setAltura(int altura) {
+        this.altura = altura;
+    }
+
 }
