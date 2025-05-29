@@ -7,7 +7,7 @@ public class Arvore {
         this.raiz = null;
     }
 
-    public void inserirNo(String elemento) {
+    public void inserirNo(int elemento) {
         No novo = new No(elemento);
         if (raiz == null) {
             raiz = novo;

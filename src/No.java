@@ -1,21 +1,21 @@
 public class No {
-    private String conteudo;
+    private int conteudo;
     private No esquerda;
     private No direita;
     private int fatorDeBalanceamento;
 
-    public No(String conteudo){
+    public No(int conteudo){
         this.conteudo = conteudo;
         this.esquerda = null;
         this.direita = null;
         this.fatorDeBalanceamento = 0;
     }
 
-    public String getConteudo() {
+    public int getConteudo() {
         return conteudo;
     }
 
-    public void setConteudo(String conteudo) {
+    public void setConteudo(int conteudo) {
         this.conteudo = conteudo;
     }
 
