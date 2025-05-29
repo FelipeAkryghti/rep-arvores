@@ -80,28 +80,24 @@ public class Arvore {
         }
     }
 
-    
-    public int contaNosFolhaRecursivo(){
+    public int contaNosFolhaRecursivo() {
         return contaNosFolhaRecursivo(raiz);
     }
 
     private int contaNosFolhaRecursivo(No no) {
-        int contateste = 0;
         if (no == null) {
             return 0;
-        } else {
-            No atual = no;
-            if (atual.getEsquerda() != null && atual.getDireita() != null) {
-                contateste = 1 + contaNosFolhaRecursivo(no.getEsquerda()) + contaNosFolhaRecursivo(no.getDireita());
-                return contateste;
-            }
         }
-        return contateste;
+        if (no.getEsquerda() == null && no.getDireita() == null) {
+            return 1;
+        }
+        return contaNosFolhaRecursivo(no.getEsquerda()) + contaNosFolhaRecursivo(no.getDireita());
     }
-    
+
     public int contaNosFolha() {
         return contaNosFolha(raiz);
     }
+
     private int contaNosFolha(No no) {
         if (no == null)
             return 0;
