@@ -7,26 +7,31 @@ public class Arvore {
         this.raiz = null;
     }
 
-    public void inserirNo(int elemento) {
-        No novo = new No(elemento);
-        if (raiz == null) {
-            raiz = novo;
-            return;
+    private int altura(No no) {
+        if (no == null) {
+            return 0;
         } else {
-            No atual = raiz;
-            while (true) {
-                if (atual.getEsquerda() == null) {
-                    atual.setEsquerda(novo);
-                    return;
-                } else if (atual.getDireita() == null) {
-                    atual.setDireita(novo);
-                    return;
-                } else {
-                    atual = atual.getEsquerda();
-                }
-            }
+            return no.getAltura();
         }
     }
+
+    private void atualizarAlturaNo(No no) {
+        if (altura(no.getEsquerda()) > altura(no.getDireita())) {
+            no.setAltura(altura(no.getEsquerda()) + 1);
+        } 
+        else if (altura(no.getDireita()) > altura(no.getEsquerda())) {
+            no.setAltura(altura(no.getDireita()) + 1);
+        }
+    }
+
+    private int getBalanceamento(No no) {
+        if (no == null) {
+            return 0;
+        }
+        return altura(no.getEsquerda()) - altura(no.getEsquerda());
+    }
+
+
 
     public void exibirArvorePreOrdemRecursivo() {
         if (raiz == null) {

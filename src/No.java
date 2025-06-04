@@ -2,13 +2,13 @@ public class No {
     private int conteudo;
     private No esquerda;
     private No direita;
-    private int fatorDeBalanceamento;
+    private int altura;
 
-    public No(int conteudo){
+    public No(int conteudo) {
         this.conteudo = conteudo;
         this.esquerda = null;
         this.direita = null;
-        this.fatorDeBalanceamento = 0;
+        this.altura = 1;
     }
 
     public int getConteudo() {
@@ -35,14 +35,11 @@ public class No {
         this.direita = direita;
     }
 
-    public int getFatorDeBalanceamento() {
-        return fatorDeBalanceamento;
+    public int getAltura() {
+        return altura;
     }
 
-    public void setFatorDeBalanceamento(int fatorDeBalanceamento) {
-        this.fatorDeBalanceamento = fatorDeBalanceamento;
+    public void setAltura(int altura) {
+        this.altura = altura;
     }
-
-   
-
 }
