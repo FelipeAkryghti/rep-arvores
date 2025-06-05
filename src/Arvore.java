@@ -22,7 +22,7 @@ public class Arvore {
         if (alturaEsquerda > alturaDireita) {
             no.setAltura(alturaEsquerda + 1);
         } else {
-            no.setAltura(alturaDireita + 1); 
+            no.setAltura(alturaDireita + 1);
         }
     }
 
@@ -57,6 +57,10 @@ public class Arvore {
         atualizarAlturaNo(noFilhoDireito);
 
         return noFilhoDireito;
+    }
+
+    public void inserirNo(int elemento) {
+        raiz = inserirNo(raiz, elemento);
     }
 
     public No inserirNo(No no, int conteudo) {
