@@ -15,12 +15,14 @@ public class Arvore {
         }
     }
 
-    private void atualizarAlturaNo(No no) {
-        if (altura(no.getEsquerda()) > altura(no.getDireita())) {
-            no.setAltura(altura(no.getEsquerda()) + 1);
-        } 
-        else if (altura(no.getDireita()) > altura(no.getEsquerda())) {
-            no.setAltura(altura(no.getDireita()) + 1);
+    public void atualizarAlturaNo(No no) {
+        int alturaEsquerda = altura(no.getEsquerda());
+        int alturaDireita = altura(no.getDireita());
+
+        if (alturaEsquerda > alturaDireita) {
+            no.setAltura(alturaEsquerda + 1);
+        } else {
+            no.setAltura(alturaDireita + 1); 
         }
     }
 
@@ -31,7 +33,83 @@ public class Arvore {
         return altura(no.getEsquerda()) - altura(no.getEsquerda());
     }
 
+    private No rotacaoDireita(No noDesbalanceado) {
+        No noFilhoEsquerdo = noDesbalanceado.getEsquerda();
+        No subArvoreIntermed = noFilhoEsquerdo.getDireita();
 
+        noFilhoEsquerdo.setDireita(noDesbalanceado);
+        noDesbalanceado.setEsquerda(subArvoreIntermed);
+
+        atualizarAlturaNo(noDesbalanceado);
+        atualizarAlturaNo(noFilhoEsquerdo);
+
+        return noFilhoEsquerdo;
+    }
+
+    private No rotacaoEsquerda(No noDesbalanceado) {
+        No noFilhoDireito = noDesbalanceado.getDireita();
+        No subArvoreIntermed = noFilhoDireito.getEsquerda();
+
+        noFilhoDireito.setEsquerda(noDesbalanceado);
+        noDesbalanceado.setDireita(subArvoreIntermed);
+
+        atualizarAlturaNo(noDesbalanceado);
+        atualizarAlturaNo(noFilhoDireito);
+
+        return noFilhoDireito;
+    }
+
+    public No inserirNo(No no, int conteudo) {
+        if (no == null) {
+            return new No(conteudo);
+        }
+
+        // Inserir no raiz 30
+        // Inserir 20 após 30:
+        // 20 < 30 → esquerda de 30 → nó vazio → cria No(20)
+        if (conteudo < no.getConteudo()) {
+            no.setEsquerda(inserirNo(no.getEsquerda(), conteudo));
+        } else if (conteudo > no.getConteudo()) {
+            no.setDireita(inserirNo(no.getDireita(), conteudo));
+        } else {
+            // não permite duplicados
+            return no;
+        }
+
+        int alturaEsquerda = altura(no.getEsquerda());
+        int alturaDireita = altura(no.getDireita());
+
+        if (alturaEsquerda > alturaDireita) {
+            no.setAltura(alturaEsquerda + 1);
+        } else {
+            no.setAltura(alturaDireita + 1);
+        }
+
+        int balanceamento = getBalanceamento(no);
+
+        if (balanceamento < -1 && conteudo > no.getDireita().getConteudo()) {
+            return rotacaoEsquerda(no);
+        }
+
+        // Rotação simples à direita
+        if (balanceamento > 1 && conteudo < no.getEsquerda().getConteudo()) {
+            return rotacaoDireita(no);
+        }
+
+        // Rotação dupla esquerda-direita
+        if (balanceamento > 1 && conteudo > no.getEsquerda().getConteudo()) {
+            no.setEsquerda(rotacaoEsquerda(no.getEsquerda()));
+            return rotacaoDireita(no);
+        }
+
+        // Rotação dupla direita-esquerda
+        if (balanceamento < -1 && conteudo < no.getDireita().getConteudo()) {
+            no.setDireita(rotacaoDireita(no.getDireita()));
+            return rotacaoEsquerda(no);
+        }
+
+        return no;
+    }
 
     public void exibirArvorePreOrdemRecursivo() {
         if (raiz == null) {
