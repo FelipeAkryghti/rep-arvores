@@ -30,7 +30,7 @@ public class Arvore {
         if (no == null) {
             return 0;
         }
-        return altura(no.getEsquerda()) - altura(no.getEsquerda());
+        return altura(no.getEsquerda()) - altura(no.getDireita());
     }
 
     private No rotacaoDireita(No noDesbalanceado) {
@@ -83,6 +83,7 @@ public class Arvore {
         int alturaEsquerda = altura(no.getEsquerda());
         int alturaDireita = altura(no.getDireita());
 
+        // Atualiza a altura
         if (alturaEsquerda > alturaDireita) {
             no.setAltura(alturaEsquerda + 1);
         } else {
@@ -91,6 +92,8 @@ public class Arvore {
 
         int balanceamento = getBalanceamento(no);
 
+        // Verifica o balanceamento e realiza as rotações caso necessárias
+        // Rotação simples à esquerda
         if (balanceamento < -1 && conteudo > no.getDireita().getConteudo()) {
             return rotacaoEsquerda(no);
         }
