@@ -7,7 +7,8 @@ public class Arvore {
         this.raiz = null;
     }
 
-    private int altura(No no) {
+    // Métodos auxiliares para implementação dos métodos de Inserção e Remoção que não dependem da instância de árvore
+    private static int altura(No no) {
         if (no == null) {
             return 0;
         } else {
@@ -15,7 +16,7 @@ public class Arvore {
         }
     }
 
-    public void atualizarAlturaNo(No no) {
+    private static void atualizarAlturaNo(No no) {
         int alturaEsquerda = altura(no.getEsquerda());
         int alturaDireita = altura(no.getDireita());
 
@@ -26,13 +27,21 @@ public class Arvore {
         }
     }
 
-    private int getBalanceamento(No no) {
+    private static int getBalanceamento(No no) {
         if (no == null) {
             return 0;
         }
         return altura(no.getEsquerda()) - altura(no.getDireita());
     }
 
+    private static No encontrarMenor(No no) {
+        while (no.getEsquerda() != null) {
+            no = no.getEsquerda();
+        }
+        return no;
+    }
+
+    // Métodos de Rotação para balanceamento da Árvore AVL
     private No rotacaoDireita(No noDesbalanceado) {
         No noFilhoEsquerdo = noDesbalanceado.getEsquerda();
         No subArvoreIntermed = noFilhoEsquerdo.getDireita();
@@ -59,11 +68,12 @@ public class Arvore {
         return noFilhoDireito;
     }
 
+    //Método de Inserção
     public void inserirNo(int elemento) {
         raiz = inserirNo(raiz, elemento);
     }
 
-    public No inserirNo(No no, int conteudo) {
+    private No inserirNo(No no, int conteudo) {
         if (no == null) {
             return new No(conteudo);
         }
@@ -80,15 +90,7 @@ public class Arvore {
             return no;
         }
 
-        int alturaEsquerda = altura(no.getEsquerda());
-        int alturaDireita = altura(no.getDireita());
-
-        // Atualiza a altura
-        if (alturaEsquerda > alturaDireita) {
-            no.setAltura(alturaEsquerda + 1);
-        } else {
-            no.setAltura(alturaDireita + 1);
-        }
+        atualizarAlturaNo(no);
 
         int balanceamento = getBalanceamento(no);
 
@@ -118,6 +120,58 @@ public class Arvore {
         return no;
     }
 
+    // Método de Remoção
+    public void removerNo(int conteudo) {
+        raiz = removerNo(raiz, conteudo);
+    }
+
+    private No removerNo(No no, int conteudo) {
+        if (no == null) {
+            return null;
+        }
+
+        if (conteudo < no.getConteudo()) {
+            no.setEsquerda(removerNo(no.getEsquerda(), conteudo));
+        } else if (conteudo > no.getConteudo()) {
+            no.setDireita(removerNo(no.getDireita(), conteudo));
+        } else {
+            if (no.getEsquerda() == null) {
+                return no.getDireita();
+            } else if (no.getDireita() == null) {
+                return no.getEsquerda();
+            }
+
+            No sucessor = encontrarMenor(no.getDireita());
+            no.setConteudo(sucessor.getConteudo());
+            no.setDireita(removerNo(no.getDireita(), sucessor.getConteudo()));
+        }
+
+        atualizarAlturaNo(no);
+
+        int balanceamento = getBalanceamento(no);
+
+        if (balanceamento > 1 && getBalanceamento(no.getEsquerda()) >= 0) {
+            return rotacaoDireita(no);
+        }
+
+        if (balanceamento > 1 && getBalanceamento(no.getEsquerda()) < 0) {
+            no.setEsquerda(rotacaoEsquerda(no.getEsquerda()));
+            return rotacaoDireita(no);
+        }
+
+        if (balanceamento < -1 && getBalanceamento(no.getDireita()) <= 0) {
+            return rotacaoEsquerda(no);
+        }
+
+        if (balanceamento < -1 && getBalanceamento(no.getDireita()) > 0) {
+            no.setDireita(rotacaoDireita(no.getDireita()));
+            return rotacaoEsquerda(no);
+        }
+
+        return no;
+    }
+
+    // Métodos de Exibição
     public void exibirArvorePreOrdemRecursivo() {
         if (raiz == null) {
             System.out.println("Árvore vazia.");
@@ -158,15 +212,61 @@ public class Arvore {
         }
     }
 
-    public int contaNos() {
-        return contaNos(raiz);
+    // Métodos de Percuros Iterativos e Recursivos
+    private void preOrdem(No no) {
+        if (no == null)
+            return;
+
+        Stack<No> pilha = new Stack<>();
+        pilha.push(no);
+
+        while (!pilha.isEmpty()) {
+            No atual = pilha.pop();
+            System.out.print(atual.getConteudo() + " ");
+
+            if (atual.getDireita() != null) {
+                pilha.push(atual.getDireita());
+            }
+            if (atual.getEsquerda() != null) {
+                pilha.push(atual.getEsquerda());
+            }
+        }
     }
 
-    private int contaNos(No no) {
+    private void preOrdemRecursivo(No no) {
+        if (no != null) {
+            System.out.print(no.getConteudo() + " ");
+            preOrdemRecursivo(no.getEsquerda());
+            preOrdemRecursivo(no.getDireita());
+        }
+    }
+
+    private void emOrdemRecursivo(No no) {
+        if (no != null) {
+            emOrdemRecursivo(no.getEsquerda());
+            System.out.print(no.getConteudo() + " ");
+            emOrdemRecursivo(no.getDireita());
+        }
+    }
+
+    private void posOrdemRecursivo(No no) {
+        if (no != null) {
+            posOrdemRecursivo(no.getEsquerda());
+            posOrdemRecursivo(no.getDireita());
+            System.out.print(no.getConteudo() + " ");
+        }
+    }
+
+    // Métodos de Contagem de Nós
+    public int contaNos() {
+        return contaNosRecursivo(raiz);
+    }
+
+    private int contaNosRecursivo(No no) {
         if (no == null) {
             return 0;
         } else {
-            return 1 + contaNos(no.getEsquerda()) + contaNos(no.getDireita());
+            return 1 + contaNosRecursivo(no.getEsquerda()) + contaNosRecursivo(no.getDireita());
         }
     }
 
@@ -209,49 +309,5 @@ public class Arvore {
             }
         }
         return contadorNoFolha;
-    }
-
-    private void preOrdemRecursivo(No no) {
-        if (no != null) {
-            System.out.print(no.getConteudo() + " ");
-            preOrdemRecursivo(no.getEsquerda());
-            preOrdemRecursivo(no.getDireita());
-        }
-    }
-
-    private void emOrdemRecursivo(No no) {
-        if (no != null) {
-            emOrdemRecursivo(no.getEsquerda());
-            System.out.print(no.getConteudo() + " ");
-            emOrdemRecursivo(no.getDireita());
-        }
-    }
-
-    private void posOrdemRecursivo(No no) {
-        if (no != null) {
-            posOrdemRecursivo(no.getEsquerda());
-            posOrdemRecursivo(no.getDireita());
-            System.out.print(no.getConteudo() + " ");
-        }
-    }
-
-    private void preOrdem(No no) {
-        if (no == null)
-            return;
-
-        Stack<No> pilha = new Stack<>();
-        pilha.push(no);
-
-        while (!pilha.isEmpty()) {
-            No atual = pilha.pop();
-            System.out.print(atual.getConteudo() + " ");
-
-            if (atual.getDireita() != null) {
-                pilha.push(atual.getDireita());
-            }
-            if (atual.getEsquerda() != null) {
-                pilha.push(atual.getEsquerda());
-            }
-        }
     }
 }
