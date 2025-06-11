@@ -1,13 +1,14 @@
 import java.util.Stack;
 
-public class Arvore {
+public class ArvoreAVL {
     private No raiz;
 
-    public Arvore() {
+    public ArvoreAVL() {
         this.raiz = null;
     }
 
-    // Métodos auxiliares para implementação dos métodos de Inserção e Remoção que não dependem da instância de árvore
+    // Métodos auxiliares para implementação dos métodos de Inserção e Remoção que
+    // não dependem da instância de árvore
     private static int altura(No no) {
         if (no == null) {
             return 0;
@@ -68,7 +69,7 @@ public class Arvore {
         return noFilhoDireito;
     }
 
-    //Método de Inserção
+    // Método de Inserção
     public void inserirNo(int elemento) {
         raiz = inserirNo(raiz, elemento);
     }
