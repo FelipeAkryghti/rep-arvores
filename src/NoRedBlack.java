@@ -3,23 +3,27 @@ public class NoRedBlack {
     public static final boolean PRETO = false;
 
     private int conteudo;
+    private boolean cor;
     private NoRedBlack esquerda;
     private NoRedBlack direita;
-    private boolean cor;
 
-    public NoRedBlack(int conteudo) {
-        this.conteudo = conteudo;
+    public NoRedBlack(int valor) {
+        this.conteudo = valor;
+        this.cor = VERMELHO;
         this.esquerda = null;
         this.direita = null;
-        this.cor = VERMELHO;
     }
 
     public int getConteudo() {
         return conteudo;
     }
 
-    public void setConteudo(int conteudo) {
-        this.conteudo = conteudo;
+    public boolean getCor() {
+        return cor;
+    }
+
+    public void setCor(boolean cor) {
+        this.cor = cor;
     }
 
     public NoRedBlack getEsquerda() {
@@ -36,13 +40,5 @@ public class NoRedBlack {
 
     public void setDireita(NoRedBlack direita) {
         this.direita = direita;
-    }
-
-    public boolean getCor() {
-        return cor;
-    }
-
-    public void setCor(boolean cor) {
-        this.cor = cor;
     }
 }
