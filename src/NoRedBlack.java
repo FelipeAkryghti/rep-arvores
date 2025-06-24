@@ -6,6 +6,7 @@ public class NoRedBlack {
     private boolean cor;
     private NoRedBlack esquerda;
     private NoRedBlack direita;
+    private NoRedBlack pai;
 
     public NoRedBlack(int valor) {
         this.conteudo = valor;
@@ -41,4 +42,13 @@ public class NoRedBlack {
     public void setDireita(NoRedBlack direita) {
         this.direita = direita;
     }
+
+    public NoRedBlack getPai() {
+        return pai;
+    }
+
+    public void setPai(NoRedBlack pai) {
+        this.pai = pai;
+    }
+    
 }

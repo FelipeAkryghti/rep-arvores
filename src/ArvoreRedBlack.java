@@ -1,87 +1,113 @@
 public class ArvoreRedBlack {
     private NoRedBlack raiz;
 
-    public ArvoreRedBlack() {
-        this.raiz = null;
-    }
-
-    private boolean ehVermelho(NoRedBlack no) {
-        if (no == null)
-            return false;
-        return no.getCor() == NoRedBlack.VERMELHO;
-    }
-
-    private NoRedBlack rotacaoEsquerda(NoRedBlack noDesbalanceado) {
-        NoRedBlack noFilhoDireito = noDesbalanceado.getDireita();
-        NoRedBlack subArvoreIntermed = noFilhoDireito.getEsquerda();
-
-        noFilhoDireito.setEsquerda(noDesbalanceado);
-        noDesbalanceado.setDireita(subArvoreIntermed);
-
-        noFilhoDireito.setCor(noDesbalanceado.getCor());
-        noDesbalanceado.setCor(NoRedBlack.VERMELHO);
-
-        return noFilhoDireito;
-    }
-
-    private NoRedBlack rotacaoDireita(NoRedBlack noDesbalanceado) {
-        NoRedBlack noFilhoEsquerdo = noDesbalanceado.getEsquerda();
-        NoRedBlack subArvoreIntermed = noFilhoEsquerdo.getDireita();
-
-        noFilhoEsquerdo.setDireita(noDesbalanceado);
-        noDesbalanceado.setEsquerda(subArvoreIntermed);
-
-        noFilhoEsquerdo.setCor(noDesbalanceado.getCor());
-        noDesbalanceado.setCor(NoRedBlack.VERMELHO);
-
-        return noFilhoEsquerdo;
-    }
-
-    private void inverterCores(NoRedBlack no) {
-        no.setCor(NoRedBlack.VERMELHO);
-        if (no.getEsquerda() != null) {
-            no.getEsquerda().setCor(NoRedBlack.PRETO);
-        }
-        if (no.getDireita() != null) {
-            no.getDireita().setCor(NoRedBlack.PRETO);
-        }
-    }
-
     public void inserir(int valor) {
-        raiz = inserir(raiz, valor);
-        if (raiz != null) {
-            raiz.setCor(NoRedBlack.PRETO); // Raiz sempre preta
-        }
-    }
+        NoRedBlack novo = new NoRedBlack(valor);
+        NoRedBlack y = null;
+        NoRedBlack x = raiz;
 
-    private NoRedBlack inserir(NoRedBlack noAtual, int valor) {
-        if (noAtual == null) {
-            return new NoRedBlack(valor); // novo nó vermelho por padrão no construtor
+        while (x != null) {
+            y = x;
+            if (valor < x.getConteudo()) x = x.getEsquerda();
+            else x = x.getDireita();
         }
 
-        if (valor < noAtual.getConteudo()) {
-            noAtual.setEsquerda(inserir(noAtual.getEsquerda(), valor));
-        } else if (valor > noAtual.getConteudo()) {
-            noAtual.setDireita(inserir(noAtual.getDireita(), valor));
+        novo.setPai(y);
+
+        if (y == null) {
+            raiz = novo;
+        } else if (valor < y.getConteudo()) {
+            y.setEsquerda(novo);
         } else {
-            // Ignora duplicatas
-            return noAtual;
+            y.setDireita(novo);
         }
 
-        if (ehVermelho(noAtual.getDireita()) && !ehVermelho(noAtual.getEsquerda())) {
-            noAtual = rotacaoEsquerda(noAtual);
-        }
+        novo.setEsquerda(null);
+        novo.setDireita(null);
+        novo.setCor(NoRedBlack.VERMELHO);
 
-        if (ehVermelho(noAtual.getEsquerda()) && ehVermelho(noAtual.getEsquerda().getEsquerda())) {
-            noAtual = rotacaoDireita(noAtual);
-        }
-
-        if (ehVermelho(noAtual.getEsquerda()) && ehVermelho(noAtual.getDireita())) {
-            inverterCores(noAtual);
-        }
-
-        return noAtual;
+        insertFix(novo);
     }
+
+    private void insertFix(NoRedBlack z) {
+        while (z.getPai() != null && z.getPai().getCor() == NoRedBlack.VERMELHO) {
+            if (z.getPai() == z.getPai().getPai().getEsquerda()) {
+                NoRedBlack y = z.getPai().getPai().getDireita();
+                if (y != null && y.getCor() == NoRedBlack.VERMELHO) {
+                    z.getPai().setCor(NoRedBlack.PRETO);
+                    y.setCor(NoRedBlack.PRETO);
+                    z.getPai().getPai().setCor(NoRedBlack.VERMELHO);
+                    z = z.getPai().getPai();
+                } else {
+                    if (z == z.getPai().getDireita()) {
+                        z = z.getPai();
+                        rotacaoEsquerda(z);
+                    }
+                    z.getPai().setCor(NoRedBlack.PRETO);
+                    z.getPai().getPai().setCor(NoRedBlack.VERMELHO);
+                    rotacaoDireita(z.getPai().getPai());
+                }
+            } else {
+                NoRedBlack y = z.getPai().getPai().getEsquerda();
+                if (y != null && y.getCor() == NoRedBlack.VERMELHO) {
+                    z.getPai().setCor(NoRedBlack.PRETO);
+                    y.setCor(NoRedBlack.PRETO);
+                    z.getPai().getPai().setCor(NoRedBlack.VERMELHO);
+                    z = z.getPai().getPai();
+                } else {
+                    if (z == z.getPai().getEsquerda()) {
+                        z = z.getPai();
+                        rotacaoDireita(z);
+                    }
+                    z.getPai().setCor(NoRedBlack.PRETO);
+                    z.getPai().getPai().setCor(NoRedBlack.VERMELHO);
+                    rotacaoEsquerda(z.getPai().getPai());
+                }
+            }
+        }
+        raiz.setCor(NoRedBlack.PRETO);
+    }
+
+    private void rotacaoEsquerda(NoRedBlack x) {
+        NoRedBlack y = x.getDireita();
+        x.setDireita(y.getEsquerda());
+        if (y.getEsquerda() != null) y.getEsquerda().setPai(x);
+
+        y.setPai(x.getPai());
+
+        if (x.getPai() == null) raiz = y;
+        else if (x == x.getPai().getEsquerda()) x.getPai().setEsquerda(y);
+        else x.getPai().setDireita(y);
+
+        y.setEsquerda(x);
+        x.setPai(y);
+    }
+
+    private void rotacaoDireita(NoRedBlack y) {
+        NoRedBlack x = y.getEsquerda();
+        y.setEsquerda(x.getDireita());
+        if (x.getDireita() != null) x.getDireita().setPai(y);
+
+        x.setPai(y.getPai());
+
+        if (y.getPai() == null) raiz = x;
+        else if (y == y.getPai().getDireita()) y.getPai().setDireita(x);
+        else y.getPai().setEsquerda(x);
+
+        x.setDireita(y);
+        y.setPai(x);
+    }
+
+    public NoRedBlack buscar(int valor) {
+        NoRedBlack atual = raiz;
+        while (atual != null && atual.getConteudo() != valor) {
+            if (valor < atual.getConteudo()) atual = atual.getEsquerda();
+            else atual = atual.getDireita();
+        }
+        return atual;
+    }
+
+    // ... (continua com remoção e deleteFix usando getters/setters)
 
     public void exibirPreOrdem() {
         System.out.print("Pré-ordem: ");
